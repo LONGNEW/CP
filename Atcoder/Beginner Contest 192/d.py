@@ -1,20 +1,32 @@
 import sys
-import math
 
 x = list(map(int, sys.stdin.readline().strip()))
 m = int(sys.stdin.readline())
 
-idx = max(x) + 1
-cnt = 0
+start = max(x) + 1
+end = 10 ** 18
 
-while True:
-    ret = 0
-    for i, item in enumerate(x):
-        ret += item * math.pow(idx, (len(x) - 1 - i))
+# 어떤 진법을 쓰든 1의 자리는 관련이 없다.
+# 길이가 1일때는 예외적으로 처리해주자.
+if len(x) == 1:
+    print(1 if x[0] <= m else 0)
+    exit()
 
-    if ret > m:
-        break
-    cnt += 1
-    idx += 1
+while start <= end:
+    mid = (end + start) // 2
+    base = [0] * (len(x))
 
-print(cnt)
+    for i in range(len(x)):
+        idx = len(x) - 1 - i
+        base[i] = mid ** idx
+
+    temp = 0
+    for i in range(len(x)):
+        temp += x[i] * base[i]
+
+    if temp <= m:
+        start = mid + 1
+    else:
+        end = mid - 1
+
+print(end - max(x))
