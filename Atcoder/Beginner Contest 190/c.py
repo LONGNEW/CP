@@ -3,7 +3,9 @@ import sys
 
 def dfs(idx):
     global ans
+    # 기저 사례
     if idx == k:
+
         cnt = 0
         for a, b in dish:
             if visit[a] and visit[b]:
