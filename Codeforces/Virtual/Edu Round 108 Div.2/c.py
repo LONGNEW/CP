@@ -1,42 +1,35 @@
 import sys
 
-
-def check(arr):
-    arr.sort(key=lambda x:x[1])
-
-    stack = []
-    for idx, pos, way in arr:
-        if way == 'L':
-            if not stack:
-                # anyway if we still have 'L' then it will work as 'R'
-                # so swap it.
-                stack.append((idx, -pos))
-            else:
-                temp = stack.pop()
-                ans[idx] = ans[temp[0]] = (pos - temp[1]) // 2
-        else:
-            stack.append((idx, pos))
-
-    while len(stack) > 1:
-        fir = stack.pop()
-        sec = stack.pop()
-
-        ans[fir[0]] = ans[sec[0]] = (m + m - fir[1] - sec[1]) // 2
-
-
 t = int(sys.stdin.readline())
-for i in range(t):
-    n, m = map(int, sys.stdin.readline().split())
-    start = list(map(int, sys.stdin.readline().split()))
-    direction = list(sys.stdin.readline().split())
+for _ in range(t):
+    n = int(sys.stdin.readline())
+    univ = list(map(int, sys.stdin.readline().split()))
+    skill = list(map(int, sys.stdin.readline().split()))
+    schools = dict()
 
-    data = [[], []]
-    ans = [-1] * (len(start))
+    for i in range(0, n):
+        if univ[i] not in schools:
+            schools[univ[i]] = [skill[i]]
+        else:
+            schools[univ[i]].append(skill[i])
 
-    for j in range(len(start)):
-        data[start[j] % 2].append((j, start[j], direction[j]))
+    for item in schools.keys():
+        schools[item].sort(key=lambda x:-x)
+        prev = 0
+        temp = []
 
-    check(data[0])
-    check(data[1])
+        for skills in schools[item]:
+            prev += skills
+            temp.append(prev)
 
-    print(*ans)
+        schools[item] = temp
+
+    ans = [0] * (n + 1)
+    for item in schools.values():
+        for i in range(1, len(item) + 1):
+            remain = len(item) % i
+            if remain == 0:
+                ans[i] += item[-1]
+            else:
+                ans[i] += item[(-1-remain)]
+    print(*ans[1:])

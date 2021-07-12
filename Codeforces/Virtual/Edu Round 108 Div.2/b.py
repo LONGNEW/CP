@@ -1,22 +1,16 @@
 import sys
 
 t = int(sys.stdin.readline())
-for i in range(t):
-    n = int(sys.stdin.readline())
-    data = list(map(int, sys.stdin.readline().split()))
-    min_val, max_val = data[0], data[0]
-    diff = 0
+for _ in range(t):
+    n, m, k = map(int, sys.stdin.readline().split())
+    ans = [[float('INF')] * (m + 1) for i in range(n + 1)]
+    ans[1][1] = 0
 
-    for idx in range(1, len(data)):
-        if data[idx] < data[idx - 1]:
-            diff = 1
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+            if i < n:
+                ans[i + 1][j] = min(ans[i + 1][j], j + ans[i][j])
+            if j < m:
+                ans[i][j + 1] = min(ans[i][j + 1], i + ans[i][j])
 
-    if diff == 1:
-        if data[0] == 1 or data[-1] == n:
-            print(1)
-        elif data[-1] == 1 and data[0] == n:
-            print(3)
-        else:
-            print(2)
-    else:
-        print(0)
+    print("YES" if ans[-1][-1] == k else "NO")

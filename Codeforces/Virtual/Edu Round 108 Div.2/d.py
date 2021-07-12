@@ -1,26 +1,23 @@
 import sys
 
+
+def check(left, right):
+    global ans
+    temp = pre
+
+    while left >= 0 and right < n:
+        temp -= (a[left] - a[right]) * (b[left] - b[right])
+        ans = max(ans, temp)
+        left -= 1
+        right += 1
+
 n = int(sys.stdin.readline())
-data = list(map(int, sys.stdin.readline().split()))
-occupied = []
-vacant = []
+a = list(map(int, sys.stdin.readline().split()))
+b = list(map(int, sys.stdin.readline().split()))
 
-for idx, item in enumerate(data):
-    if item == 1:
-        occupied.append(idx + 1)
-    else:
-        vacant.append(idx + 1)
+ans = pre = sum(a[i] * b[i] for i in range(n))
 
-if not occupied:
-    print(0)
-    exit(0)
-
-dp = [[float('INF')] * (len(vacant) + 1) for i in range(len(occupied) + 1)]
-
-for j in range(len(vacant)):
-    dp[1][j + 1] = min(dp[1][j], abs(occupied[0] - vacant[j]))
-
-for i in range(1, len(occupied)):
-    for j in range(i, len(vacant)):
-        dp[i + 1][j + 1] = min(dp[i][j] + abs(occupied[i] - vacant[j]), dp[i + 1][j])
-print(dp[-1][-1])
+for i in range(n - 1):
+    check(i, i + 1)
+    check(i - 1, i + 1)
+print(ans)
