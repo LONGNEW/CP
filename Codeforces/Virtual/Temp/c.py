@@ -1,21 +1,20 @@
 import sys
 
-n, k, x = map(int, sys.stdin.readline().split())
-data = list(map(int, sys.stdin.readline().split()))
-data.sort()
+t = int(sys.stdin.readline())
+for _ in range(t):
+    n = int(sys.stdin.readline())
+    data = list(map(int, sys.stdin.readline().split()))
+    data.sort()
 
-cnt = 0
-temp = []
+    if len(data) == 2:
+        print(*data)
+        continue
 
-for i in range(len(data) - 1):
-    if data[i + 1] - data[i] > 0:
-        temp.append((data[i + 1] - data[i] - 1) // x)
-        cnt += (data[i + 1] - data[i] - 1) // x
+    idx = -1
+    diff = 999999999
+    for i in range(1, len(data)):
+        if data[i] - data[i - 1] < diff:
+            idx = i
+            diff = data[i] - data[i - 1]
 
-ans = 1
-temp.sort()
-while cnt > k:
-    cnt -= temp.pop()
-    ans += 1
-
-print(ans)
+    print(*data[idx:], *data[:idx])

@@ -1,12 +1,14 @@
 import sys
 
-k = int(sys.stdin.readline())
-for _ in range(k):
-    n, x, t = map(int, sys.stdin.readline().split())
-    remain = t // x
+t = int(sys.stdin.readline())
+for _ in range(t):
+    n = int(sys.stdin.readline())
+    data = list(map(int, sys.stdin.readline().split()))
+    total = sum(data)
 
-    if n > remain:
-        ans = (n - remain) * remain + remain * (remain - 1) // 2
-        print(ans)
+    if total == n:
+        print(0)
+    elif total < n:
+        print(1)
     else:
-        print(n * (n - 1) // 2)
+        print(total - n)
