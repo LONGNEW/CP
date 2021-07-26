@@ -49,6 +49,7 @@ for _ in range(t):
                 b -= 2
 
         right_idx -= 1
+
     right_idx = len(data) - 1
     for i in range(math.ceil(len(data) / 2)):
         if i == right_idx:
