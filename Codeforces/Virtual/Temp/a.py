@@ -1,14 +1,11 @@
 import sys
 
-t = int(sys.stdin.readline())
-for _ in range(t):
+for _ in range(int(sys.stdin.readline())):
     n = int(sys.stdin.readline())
     data = list(map(int, sys.stdin.readline().split()))
-    total = sum(data)
+    data.sort()
+    small, big = data[:n + 1], data[n:]
 
-    if total == n:
-        print(0)
-    elif total < n:
-        print(1)
-    else:
-        print(total - n)
+    for i in range(n):
+        print(small[i], big[i], end=" ")
+    print()

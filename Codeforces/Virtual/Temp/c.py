@@ -1,20 +1,14 @@
 import sys
+from heapq import heappop, heappush
 
-t = int(sys.stdin.readline())
-for _ in range(t):
-    n = int(sys.stdin.readline())
-    data = list(map(int, sys.stdin.readline().split()))
-    data.sort()
+n = int(sys.stdin.readline())
+data = list(map(int, sys.stdin.readline().split()))
+ans, total = [], 0
 
-    if len(data) == 2:
-        print(*data)
-        continue
+for item in data:
+    heappush(ans, item)
+    total += item
 
-    idx = -1
-    diff = 999999999
-    for i in range(1, len(data)):
-        if data[i] - data[i - 1] < diff:
-            idx = i
-            diff = data[i] - data[i - 1]
-
-    print(*data[idx:], *data[:idx])
+    if total < 0:
+        total -= heappop(ans)
+print(len(ans))
