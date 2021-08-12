@@ -31,5 +31,9 @@ for _ in range(int(sys.stdin.readline())):
                 ans[i] = date[i][j]
                 break
 
+    if min(ans) == 0:
+        print("NO")
+        continue
+
     print("YES")
     print(*ans)
