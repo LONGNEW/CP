@@ -1,17 +1,16 @@
 import sys
 
 for _ in range(int(sys.stdin.readline())):
-    x = int(sys.stdin.readline())
-    data = [i * 111 for i in range(11)]
-    flag = 0
+    n = int(sys.stdin.readline())
+    data = list(map(int, sys.stdin.readline().split()))
+    data.sort()
+    ans, diff = [data[0]], float('inf')
 
-    for item in data:
-        temp = x - item
-        if temp < 0:
+    for i in range(1, len(data)):
+        diff = min(diff, abs(ans[-1] - data[i]))
+        if data[i] > diff:
             break
 
-        if temp % 11 == 0:
-            flag = 1
-            break
+        ans.append(data[i])
 
-    print("YES" if flag else "NO")
+    print(len(ans))
