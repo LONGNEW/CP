@@ -2,13 +2,12 @@ import sys
 
 for _ in range(int(sys.stdin.readline())):
     n = int(sys.stdin.readline())
-    data = list(map(int, sys.stdin.readline().split()))
-    data.sort()
-    pivot, cnt = data[0], 0
+    ans = 1
 
-    for item in data:
-        if pivot != item:
-            break
-        cnt += 1
+    while ans <= n:
+        ans *= 2
 
-    print(len(data) - cnt)
+    if ans != 1:
+        ans //= 2
+
+    print(ans - 1)
