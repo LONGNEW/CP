@@ -1,38 +1,25 @@
 import sys
 
-def make(a, b, temp_str):
-    if len(temp_str) > 0 and int(temp_str) not in numbers[len(temp_str)]:
-        numbers[len(temp_str)].append(int(temp_str))
-
-    if len(temp_str) == 9:
-        return
-
-    make(a, b, temp_str + str(a))
-    make(a, b, temp_str + str(b))
-
-numbers = [[] for _ in range(10)]
-
-for i in range(1, 10):
-    for j in range(i + 1, 10):
-        make(i, j, "")
+temp = []
+i = 1
+while i < 10 ** 18:
+    temp.append(i)
+    i *= 2
 
 for _ in range(int(sys.stdin.readline())):
-    n, k = map(int, sys.stdin.readline().split())
-    ans = 0
+    n = sys.stdin.readline().rstrip()
+    ans = float('inf')
 
-    for i in range(len(str(n)), 10):
-        for item in sorted(numbers[i]):
-            elements = 1
+    for item in temp:
+        item = str(item)
+        idx, target_idx = 0, 0
 
-            for ch in str(item):
-                if ch != str(item)[0]:
-                    elements += 1
-                    break
+        while idx < len(n) and target_idx < len(item):
+            if n[idx] == item[target_idx]:
+                target_idx += 1
 
-            if item >= n and elements == k:
-                ans = item
-                break
-        if ans != 0:
-            break
+            idx += 1
+
+        ans = min(ans, len(n) + len(item) - 2 * target_idx)
 
     print(ans)
