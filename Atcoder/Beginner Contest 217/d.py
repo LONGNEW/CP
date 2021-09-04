@@ -1,17 +1,17 @@
 import sys
+import array
 from bisect import bisect_left
 
 l, q = map(int, sys.stdin.readline().split())
-data = [0, l]
+data = array.array('i', [0, l])
 
 for i in range(q):
     c, x = map(int, sys.stdin.readline().split())
+    idx = bisect_left(data, x)
 
     if c == 1:
-        data.append(x)
+        data.insert(idx, x)
         continue
 
-    data.sort()
-    idx = bisect_left(data, x)
     left, right = idx - 1, idx
     print(data[right] - data[left])
