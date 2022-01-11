@@ -4,9 +4,8 @@ data = []
 for j in range(1, 10):
     num = j
     data.append(num)
-    while num < 1000000000:
-        num *= 10
-        num += j
+    for i in range(1, 10):
+        num = num * 10 + j
         data.append(num)
 data.sort()
 
