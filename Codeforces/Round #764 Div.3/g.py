@@ -1,38 +1,50 @@
 import sys
-from heapq import heappop, heappush
 
-def find(node):
-    if parent[node] == node:
-        return parent[node]
-    parent[node] = find(parent[node])
-    return parent[node]
 
-def union(a, b):
-    parent_a = find(a)
-    parent_b = find(b)
+def solve():
+    def find(node):
+        if parent[node] == node:
+            return parent[node]
+        parent[node] = find(parent[node])
+        return  parent[node]
 
-    if parent_a < parent_b:
-        parent[b] = parent_a
-    else:
-        parent[a] = parent_b
+    def union(a, b):
+        parent_a = find(a)
+        parent_b = find(b)
 
-t = int(sys.stdin.readline())
+        if parent_a < parent_b:
+            parent[parent_b] = parent_a
+        else:
+            parent[parent_a] = parent_b
 
-for _ in range(t):
-    vacant = sys.stdin.readline()
+    sys.stdin.readline()
     n, m = map(int, sys.stdin.readline().split())
-    edge = []
-    parent = [i for i in range(n + 1)]
-    ans = 1
+    e = []
 
-    for i in range(m):
-        v, u, w = map(int, sys.stdin.readline().split())
-        heappush(edge, (w, v, u))
+    for _ in range(m):
+        u, v, w = map(int, sys.stdin.readline().split())
+        e.append((u, v, w))
 
-    while edge:
-        w, v, u = heappop(edge)
+    mask = 0
+    for j in range(29, -1, -1):
+        mm = mask | (1 << j)
+        parent = [i for i in range(n + 1)]
+        cnt = 0
 
-        if find(v) != find(u):
-            union(v, u)
-            ans |= w
-    print(ans)
+        for u, v, w in e:
+            if w & mm == 0 and find(u) != find(v):
+                union(u, v)
+                cnt += 1
+
+        if cnt == n - 1:
+            mask = mm
+
+    print(((1 << 30) - 1) - mask)
+
+
+def main():
+    for i in range(int(sys.stdin.readline())):
+        solve()
+
+if __name__ == '__main__':
+    main()
